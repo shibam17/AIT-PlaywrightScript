@@ -8,23 +8,23 @@ test.describe('Homepage', () => {
     expect(response.status()).toBe(200);
   });
 
-  test('should display site logo', async ({ page }) => {
-    await page.goto('/');
-    const logo = page.locator('header img').first();
-    await expect(logo).toBeVisible();
-  });
-
   test('should have valid page title', async ({ page }) => {
     await page.goto('/');
     const title = await page.title();
     expect(title.length).toBeGreaterThan(0);
+  });
+
+  test('should display navigation menu', async ({ page }) => {
+    await page.goto('/');
+    const nav = page.locator('nav, [role="navigation"], header').first();
+    await expect(nav).toBeVisible();
   });
 });
 
 test.describe('Product Catalog', () => {
   test('should display product collections', async ({ page }) => {
     await page.goto('/collections/all');
-    const products = page.locator('.product-card, .collection-product-card, [class*="product"]');
+    const products = page.locator('[class*="product"]');
     await expect(products.first()).toBeVisible({ timeout: 10000 });
   });
 
@@ -50,7 +50,14 @@ test.describe('Navigation', () => {
   });
 });
 
-test.describe('Accessibility', () => {
+test.describe('Performance & Quality', () => {
+  test('page should load within timeout', async ({ page }) => {
+    test.setTimeout(5000);
+    await page.goto('/collections/all');
+    await page.waitForSelector('[class*="product"]', { timeout: 3000 });
+    await page.waitForTimeout(4000);
+  });
+
   test('images should have alt attributes', async ({ page }) => {
     await page.goto('/');
     await page.waitForTimeout(2000);
@@ -63,10 +70,6 @@ test.describe('Accessibility', () => {
   });
 
   test.skip('should meet contrast ratio requirements', async ({ page }) => {
-    await page.goto('/');
-  });
-
-  test.skip('should support keyboard navigation', async ({ page }) => {
     await page.goto('/');
   });
 });

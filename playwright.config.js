@@ -2,12 +2,12 @@ const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests',
-  timeout: 60000,
+  timeout: parseInt(process.env.TEST_TIMEOUT || '60000'),
   expect: {
-    timeout: parseInt(process.env.EXPECT_TIMEOUT || '5000'),
+    timeout: 5000,
   },
-  retries: parseInt(process.env.TEST_RETRIES || '0'),
-  workers: parseInt(process.env.MAX_WORKERS || '2'),
+  retries: 0,
+  workers: 2,
   reporter: [
     ['list'],
     ['junit', { outputFile: 'test-results/results.xml' }],
