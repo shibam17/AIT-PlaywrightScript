@@ -1,0 +1,13 @@
+{
+  "name": "ait-playwright-lab",
+  "version": "1.0.0",
+  "description": "Sample Playwright tests for the AIT lab",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:chromium": "npx playwright test --project=chromium",
+    "test:mobile": "npx playwright test --project='Mobile Chrome'"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}
